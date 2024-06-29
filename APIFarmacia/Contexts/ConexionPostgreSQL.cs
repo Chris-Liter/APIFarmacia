@@ -10,10 +10,10 @@ namespace APIFarmacia.Contexts
             
         }
 
-        //public DbSet<Detalle_Factura> Detalle_Facturas => Set<Detalle_Factura>();   
-        //public DbSet<Cliente> Cliente => Set<Cliente>();
-        //public DbSet<Factura> Factura => Set<Factura>();
-        //public DbSet<Productos> Productos => Set<Productos>();
+        public DbSet<Detalle_Factura> Detalle_Facturas => Set<Detalle_Factura>();
+        public DbSet<Cliente> Cliente => Set<Cliente>();
+        public DbSet<Factura> Factura => Set<Factura>();
+        public DbSet<Productos> Productos => Set<Productos>();
         public DbSet<Usuarios> Usuarios => Set<Usuarios>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

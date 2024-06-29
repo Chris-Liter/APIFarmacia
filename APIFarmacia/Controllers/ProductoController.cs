@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using APIFarmacia.Contexts;
+using APIFarmacia.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -8,36 +11,77 @@ namespace APIFarmacia.Controllers
     [ApiController]
     public class ProductoController : ControllerBase
     {
-        // GET: api/<ProductoController>
+        private readonly ConexionPostgreSQL conexionPostgreSQL;
+        public ProductoController(ConexionPostgreSQL conexionPostgreSQL)
+        {
+            this.conexionPostgreSQL = conexionPostgreSQL;
+        }
+
+
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<Productos> Get()
         {
-            return new string[] { "value1", "value2" };
+            return conexionPostgreSQL.Productos.ToList();
         }
 
-        // GET api/<ProductoController>/5
+        // GET api/<Detalle_FacturaController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<ActionResult<Productos>> GetProductos(int id)
         {
-            return "value";
+            var usuario = await conexionPostgreSQL.Productos.FindAsync(id);
+            if (usuario == null)
+                return NotFound();
+            return Ok(usuario);
+
         }
 
-        // POST api/<ProductoController>
+        // POST api/<Detalle_FacturaController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<ActionResult<Productos>> PostProductos(Productos productos)
         {
+            conexionPostgreSQL.Productos.Add(productos);
+            await conexionPostgreSQL.SaveChangesAsync();
+            return CreatedAtAction(nameof(productos), new { id = productos.id }, productos);
         }
 
-        // PUT api/<ProductoController>/5
+
+        // PUT api/<Detalle_FacturaController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<IActionResult> PutDetalle(int id, [FromBody] Productos value)
         {
+            if (id != value.id)
+            {
+                return BadRequest();
+            }
+            conexionPostgreSQL.Entry(value).State = EntityState.Modified;
+
+            try
+            {
+                await conexionPostgreSQL.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+
+            }
+
+            return Ok(value);
+
         }
 
-        // DELETE api/<ProductoController>/5
+        // DELETE api/<Detalle_FacturaController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<IActionResult> DeleteProductos(int id)
         {
+            var usuario = await conexionPostgreSQL.Productos.FindAsync(id);
+            if (usuario == null)
+            {
+                return NotFound();
+            }
+
+            conexionPostgreSQL.Productos.Remove(usuario);
+            await conexionPostgreSQL.SaveChangesAsync();
+            return NoContent();
         }
+       
     }
 }

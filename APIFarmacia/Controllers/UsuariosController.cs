@@ -90,5 +90,15 @@ namespace APIFarmacia.Controllers
             await conexionSQLServer.SaveChangesAsync();
             return NoContent();
         }
+
+        [HttpGet("/login/{nombre}/{password}")]
+
+        public async Task<ActionResult<Usuarios>> Login(string username, string password)
+        {
+            var usuario = conexionSQLServer.Usuarios.Any(opt => opt.nombre == username && opt.passwords == password);
+            if (usuario == null)
+                return NotFound();
+            return Ok(usuario);
+        }
     }
 }
