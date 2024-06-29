@@ -91,14 +91,14 @@ namespace APIFarmacia.Controllers
             return NoContent();
         }
 
-        [HttpGet("/login/{nombre}/{password}")]
-
-        public async Task<ActionResult<Usuarios>> Login(string username, string password)
+        [HttpGet("login/{nombre}/{password}")]
+        public async Task<ActionResult<Usuarios>> Login(string nombre, string password)
         {
-            var usuario = conexionSQLServer.Usuarios.Any(opt => opt.nombre == username && opt.passwords == password);
+            var usuario = await conexionSQLServer.Usuarios.FirstOrDefaultAsync(opt => opt.nombre == nombre && opt.passwords == password);
             if (usuario == null)
-                return NotFound();
+                return NotFound("Contraseña o Usuario incorrecto");
             return Ok(usuario);
         }
+
     }
 }

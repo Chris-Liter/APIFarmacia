@@ -47,7 +47,7 @@ namespace APIFarmacia.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCliente(int id, Cliente cliente)
         {
-            if (id != cliente.id)
+            if (id != cliente.id_cliente)
             {
                 return BadRequest();
             }
@@ -81,7 +81,7 @@ namespace APIFarmacia.Controllers
             _context.Cliente.Add(cliente);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCliente", new { id = cliente.id }, cliente);
+            return CreatedAtAction("GetCliente", new { id = cliente.id_cliente }, cliente);
         }
 
         // DELETE: api/Clientes/5
@@ -102,7 +102,7 @@ namespace APIFarmacia.Controllers
 
         private bool ClienteExists(int id)
         {
-            return _context.Cliente.Any(e => e.id == id);
+            return _context.Cliente.Any(e => e.id_cliente == id);
         }
     }
 }
