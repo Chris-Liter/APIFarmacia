@@ -41,7 +41,10 @@ namespace APIFarmacia.Contexts
             //           .HasColumnName("Id_dunio");
 
             //});
-
+            modelBuilder.Entity<Cliente>(entity =>
+            {
+                entity.HasKey(e => e.cli_id);
+            });
         }
     }
 }

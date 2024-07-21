@@ -10,7 +10,7 @@ namespace APIFarmacia.Models
         public string codigo_producto { get; set; }
         public string nombre { get; set; }
         public double precio { get; set; }
-        public int stock { get; set; }
+        public double stock { get; set; }
         public double iva { get; set; }
 
     }

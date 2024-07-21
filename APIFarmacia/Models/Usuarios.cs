@@ -10,6 +10,11 @@ namespace APIFarmacia.Models
         public string email { get; set; }
         public string fechanacimiento { get; set; }             
         public string passwords { get; set; }
-        
+        public string permisos { get; set; }
+    }
+    public enum Permisos
+    {
+        Empleado = 0,
+        Administrador = 1
     }
 }

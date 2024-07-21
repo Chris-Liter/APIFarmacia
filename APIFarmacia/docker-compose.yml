@@ -7,7 +7,7 @@ networks:
 services:
 
   apifarmacia:
-    image: apifarmacia:dev  # Usa solo si la imagen ya está construida y disponible localmente
+    image: chrisliter/apifarmacia:dev  # Usa solo si la imagen ya está construida y disponible localmente
     depends_on:
       - postgres
     build:

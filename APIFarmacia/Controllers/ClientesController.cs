@@ -47,7 +47,7 @@ namespace APIFarmacia.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCliente(int id, Cliente cliente)
         {
-            if (id != cliente.id_cliente)
+            if (id != cliente.cli_id)
             {
                 return BadRequest();
             }
@@ -60,14 +60,14 @@ namespace APIFarmacia.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ClienteExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                //if (!ClienteExists(id))
+                //{
+                //    return NotFound();
+                //}
+                //else
+                //{
+                //    throw;
+                //}
             }
 
             return NoContent();
@@ -78,10 +78,15 @@ namespace APIFarmacia.Controllers
         [HttpPost]
         public async Task<ActionResult<Cliente>> PostCliente(Cliente cliente)
         {
+            if (cliente.type_person == "Comprador")
+                cliente.type_person = "1";
+            else
+                cliente.type_person = "0";
+            
             _context.Cliente.Add(cliente);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCliente", new { id = cliente.id_cliente }, cliente);
+            return CreatedAtAction("GetCliente", new { id = cliente.cli_id }, cliente);
         }
 
         // DELETE: api/Clientes/5
@@ -100,9 +105,9 @@ namespace APIFarmacia.Controllers
             return NoContent();
         }
 
-        private bool ClienteExists(int id)
-        {
-            return _context.Cliente.Any(e => e.id_cliente == id);
-        }
+        //private bool ClienteExists(int id)
+        //{
+        //    return _context.Cliente.Any(e => e.cli_id == id);
+        //}
     }
 }

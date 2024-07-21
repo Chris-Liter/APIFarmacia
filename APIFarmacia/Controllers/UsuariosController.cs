@@ -37,6 +37,14 @@ namespace APIFarmacia.Controllers
         [HttpPost]
         public async Task<ActionResult<Usuarios>> saveUsuario(Usuarios usuario) 
         {
+            if(usuario.permisos == "Administrador")
+            {
+                usuario.permisos = "1";
+            }
+            else
+            {
+                usuario.permisos ="0";
+            }
             conexionSQLServer.Usuarios.Add(usuario);
             await conexionSQLServer.SaveChangesAsync();
             return CreatedAtAction(nameof(GetUsuario), new {id =  usuario.id}, usuario);
@@ -49,6 +57,14 @@ namespace APIFarmacia.Controllers
             if (id != value.id)
             {
                 return BadRequest();
+            }
+            if (value.permisos == "Administrador")
+            {
+                value.permisos = "1";
+            }
+            else
+            {
+                value.permisos = "0";
             }
 
             conexionSQLServer.Entry(value).State = EntityState.Modified;

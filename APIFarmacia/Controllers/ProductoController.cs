@@ -25,24 +25,46 @@ namespace APIFarmacia.Controllers
         }
 
         // GET api/<Detalle_FacturaController>/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Productos>> GetProductos(int id)
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<Productos>> GetProductoById(int id)
         {
-            var usuario = await conexionPostgreSQL.Productos.FindAsync(id);
-            if (usuario == null)
+            var producto = await conexionPostgreSQL.Productos.FindAsync(id);
+            if (producto == null)
+            {
                 return NotFound();
-            return Ok(usuario);
-
+            }
+            return Ok(producto);
         }
+
 
         // POST api/<Detalle_FacturaController>
-        [HttpPost]
-        public async Task<ActionResult<Productos>> PostProductos(Productos productos)
+        [HttpPost("crear")]
+        public async Task<IActionResult> CreateProducto([FromBody] Productos producto)
         {
-            conexionPostgreSQL.Productos.Add(productos);
-            await conexionPostgreSQL.SaveChangesAsync();
-            return CreatedAtAction(nameof(productos), new { id = productos.id }, productos);
+            if (producto == null)
+            {
+                return BadRequest("El producto tiene campos faltantes");
+            }
+
+            try
+            {
+                conexionPostgreSQL.Productos.Add(producto);
+                await conexionPostgreSQL.SaveChangesAsync();
+                return CreatedAtAction(nameof(GetProductoById), new { id = producto.id }, producto);
+            }
+            catch (DbUpdateException ex)
+            {
+                // Manejar errores específicos de la base de datos
+                return StatusCode(500, $"Error guardando los datos: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                // Manejar otros errores
+                return StatusCode(500, $"Ocurrió un error inesperado: {ex.Message}");
+            }
         }
+
+
 
 
         // PUT api/<Detalle_FacturaController>/5

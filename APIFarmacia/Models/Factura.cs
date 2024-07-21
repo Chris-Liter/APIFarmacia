@@ -7,13 +7,15 @@ namespace APIFarmacia.Models
     {
         [Key]
         public int fac_id { get; set; }
-        public int fac_tipo { get; set; }
-        public string fac_fecha { get; set; }
-        public double fac_subTotal { get; set; }
-        public double fac_total_iva { get; set; }
-        public double fac_total { get; set; }
+        public string? fac_tipo { get; set; }
+        public double fac_numero { get; set; }
+        public string? fac_fecha { get; set; }
+        public double? fac_subtotal { get; set; }
+        public double? fac_total_iva { get; set; }
+        public double? fac_total { get; set; }
         [ForeignKey("id_cliente")]
-        public int id_cliente { get; set; }
-
+        public int? id_cliente { get; set; }
+        [ForeignKey("id_usuario")]
+        public int? id_usuario {  get; set; }
     }
 }

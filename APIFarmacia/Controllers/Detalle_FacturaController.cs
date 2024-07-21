@@ -43,7 +43,7 @@ namespace APIFarmacia.Controllers
         {
             conexionPostgreSQL.Detalle_Facturas.Add(detalle_Factura);
             await conexionPostgreSQL.SaveChangesAsync();
-            return CreatedAtAction(nameof(detalle_Factura), new { id = detalle_Factura.factura_id  }, detalle_Factura);
+            return CreatedAtAction(nameof(GetFactura), new { id = detalle_Factura.factura_id  }, detalle_Factura);
         }
 
 

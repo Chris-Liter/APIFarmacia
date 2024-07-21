@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace APIFarmacia.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class sec : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,16 +15,19 @@ namespace APIFarmacia.Migrations
                 name: "Cliente",
                 columns: table => new
                 {
-                    id_cliente = table.Column<int>(type: "integer", nullable: false)
+                    cli_id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    nombre = table.Column<string>(type: "text", nullable: false),
-                    cedula = table.Column<string>(type: "text", nullable: false),
-                    fechaNacimiento = table.Column<string>(type: "text", nullable: false),
-                    correo = table.Column<string>(type: "text", nullable: false)
+                    cli_nombres = table.Column<string>(type: "text", nullable: true),
+                    cli_cedula = table.Column<string>(type: "text", nullable: true),
+                    cli_apellidos = table.Column<string>(type: "text", nullable: true),
+                    cli_direccion = table.Column<string>(type: "text", nullable: true),
+                    cli_telefono = table.Column<string>(type: "text", nullable: true),
+                    cli_correo = table.Column<string>(type: "text", nullable: true),
+                    type_Person = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Cliente", x => x.id_cliente);
+                    table.PrimaryKey("PK_Cliente", x => x.cli_id);
                 });
 
             migrationBuilder.CreateTable(
@@ -52,12 +55,14 @@ namespace APIFarmacia.Migrations
                 {
                     fac_id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    fac_tipo = table.Column<int>(type: "integer", nullable: false),
-                    fac_fecha = table.Column<string>(type: "text", nullable: false),
-                    fac_subTotal = table.Column<double>(type: "double precision", nullable: false),
-                    fac_total_iva = table.Column<double>(type: "double precision", nullable: false),
-                    fac_total = table.Column<double>(type: "double precision", nullable: false),
-                    id_cliente = table.Column<int>(type: "integer", nullable: false)
+                    fac_tipo = table.Column<int>(type: "integer", nullable: true),
+                    fac_numero = table.Column<int>(type: "integer", nullable: true),
+                    fac_fecha = table.Column<string>(type: "text", nullable: true),
+                    fac_subtotal = table.Column<double>(type: "double precision", nullable: true),
+                    fac_total_iva = table.Column<double>(type: "double precision", nullable: true),
+                    fac_total = table.Column<double>(type: "double precision", nullable: true),
+                    id_cliente = table.Column<int>(type: "integer", nullable: true),
+                    id_usuario = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -73,7 +78,7 @@ namespace APIFarmacia.Migrations
                     codigo_producto = table.Column<string>(type: "text", nullable: false),
                     nombre = table.Column<string>(type: "text", nullable: false),
                     precio = table.Column<double>(type: "double precision", nullable: false),
-                    stock = table.Column<int>(type: "integer", nullable: false),
+                    stock = table.Column<double>(type: "double precision", nullable: false),
                     iva = table.Column<double>(type: "double precision", nullable: false)
                 },
                 constraints: table =>
@@ -90,7 +95,8 @@ namespace APIFarmacia.Migrations
                     nombre = table.Column<string>(type: "text", nullable: false),
                     email = table.Column<string>(type: "text", nullable: false),
                     fechanacimiento = table.Column<string>(type: "text", nullable: false),
-                    passwords = table.Column<string>(type: "text", nullable: false)
+                    passwords = table.Column<string>(type: "text", nullable: false),
+                    permisos = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
